@@ -1376,7 +1376,7 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "localhost:3000",
 	BasePath:         "/v1",
 	Schemes:          []string{},
-	Title:            "go-fiber-boilerplate API documentation",
+	Title:            "Tixfest API documentation",
 	Description:      "",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,

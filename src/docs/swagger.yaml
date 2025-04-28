@@ -510,8 +510,8 @@ info:
   contact: {}
   license:
     name: MIT
-    url: https://github.com/indrayyana/go-fiber-boilerplate/blob/main/LICENSE
-  title: go-fiber-boilerplate API documentation
+    url: "",
+  title: Tixfest API documentation
   version: 1.0.0
 paths:
   /auth/forgot-password:

@@ -19,10 +19,10 @@ import (
 	"gorm.io/gorm"
 )
 
-// @title go-fiber-boilerplate API documentation
+// @title Tixfest API documentation
 // @version 1.0.0
 // @license.name MIT
-// @license.url https://github.com/indrayyana/go-fiber-boilerplate/blob/main/LICENSE
+// @license.url
 // @host localhost:3000
 // @BasePath /v1
 // @securityDefinitions.apikey BearerAuth

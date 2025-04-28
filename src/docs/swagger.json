@@ -1,11 +1,11 @@
 {
     "swagger": "2.0",
     "info": {
-        "title": "go-fiber-boilerplate API documentation",
+        "title": "Tixfest API documentation",
         "contact": {},
         "license": {
             "name": "MIT",
-            "url": "https://github.com/indrayyana/go-fiber-boilerplate/blob/main/LICENSE"
+            "url": ""
         },
         "version": "1.0.0"
     },
