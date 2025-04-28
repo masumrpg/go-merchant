@@ -1,0 +1,12 @@
+# Environment varibales
+.env*
+!.env*.example
+
+# Temporary
+tmp/
+
+lint.txt
+main
+
+# idea
+.idea
