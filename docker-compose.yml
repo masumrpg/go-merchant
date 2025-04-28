@@ -7,6 +7,22 @@ services:
     networks:
       - go-network
 
+  redis:
+    image: redis:alpine
+    restart: always
+    ports:
+      - ${REDIS_PORT}:6379
+    volumes:
+      - redisdata:/data
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a ${REDIS_PASSWORD} ping | grep PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - go-network
+
   postgresdb:
     image: postgres:alpine
     restart: always
@@ -34,6 +50,8 @@ services:
     depends_on:
       postgresdb:
         condition: service_healthy
+      redis:
+        condition: service_healthy
     volumes:
       - .:/usr/src/go-app
     restart: on-failure
@@ -50,6 +68,7 @@ services:
 
 volumes:
   dbdata:
+  redisdata:
 
 networks:
   go-network:

@@ -1,6 +1,7 @@
 package service
 
 import (
+	"app/src/database"
 	"app/src/utils"
 	"errors"
 	"runtime"
@@ -12,6 +13,7 @@ import (
 type HealthCheckService interface {
 	GormCheck() error
 	MemoryHeapCheck() error
+	RedisCheck() error
 }
 
 type healthCheckService struct {
@@ -38,6 +40,17 @@ func (s *healthCheckService) GormCheck() error {
 		return err
 	}
 
+	return nil
+}
+
+// RedisCheck verifies the Redis connection is healthy
+func (s *healthCheckService) RedisCheck() error {
+	if err := database.PingRedis(); err != nil {
+		s.Log.Errorf("failed to ping Redis: %v", err)
+		return err
+	}
+
+	s.Log.Info("Redis connection is healthy")
 	return nil
 }
 

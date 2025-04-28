@@ -16,6 +16,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/helmet"
+	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -36,6 +37,10 @@ func main() {
 	app := setupFiberApp()
 	db := setupDatabase()
 	defer closeDatabase(db)
+
+	redisClient := setupRedis()
+	defer closeRedis(redisClient)
+
 	setupRoutes(app, db)
 
 	address := fmt.Sprintf("%s:%d", config.AppHost, config.AppPort)
@@ -66,6 +71,10 @@ func setupDatabase() *gorm.DB {
 	return db
 }
 
+func setupRedis() *redis.Client {
+	return database.ConnectRedis()
+}
+
 func setupRoutes(app *fiber.App, db *gorm.DB) {
 	router.Routes(app, db)
 	app.Use(utils.NotFoundHandler)
@@ -89,6 +98,10 @@ func closeDatabase(db *gorm.DB) {
 	} else {
 		utils.Log.Info("Database connection closed successfully")
 	}
+}
+
+func closeRedis(redisClient *redis.Client) {
+	database.CloseRedis(redisClient)
 }
 
 func handleGracefulShutdown(ctx context.Context, app *fiber.App, serverErrors <-chan error) {

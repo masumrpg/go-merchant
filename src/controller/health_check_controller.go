@@ -55,6 +55,15 @@ func (h *HealthCheckController) Check(c *fiber.Ctx) error {
 		h.addServiceStatus(&serviceList, "Postgre", true, nil)
 	}
 
+	// Check Redis connection
+	if err := h.HealthCheckService.RedisCheck(); err != nil {
+		isHealthy = false
+		errMsg := err.Error()
+		h.addServiceStatus(&serviceList, "Redis", false, &errMsg)
+	} else {
+		h.addServiceStatus(&serviceList, "Redis", true, nil)
+	}
+
 	if err := h.HealthCheckService.MemoryHeapCheck(); err != nil {
 		isHealthy = false
 		errMsg := err.Error()

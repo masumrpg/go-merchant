@@ -15,6 +15,11 @@ env:
   DB_PASSWORD: thisisasamplepassword
   DB_NAME: fiberdb
   DB_PORT: 5432
+  REDIS_HOST: localhost
+  REDIS_PORT: 6379
+  REDIS_PASSWORD: thisisaredispassword
+  REDIS_DB: 0
+  REDIS_PREFIX: app_
 
 jobs:
   GoFiber:
@@ -34,6 +39,18 @@ jobs:
           --health-interval 10s
           --health-timeout 20s
           --health-retries 10
+          
+      redis:
+        image: redis:alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        env:
+          REDIS_PASSWORD: thisisaredispassword
 
     steps:
       - uses: actions/checkout@v4
@@ -64,3 +81,8 @@ jobs:
           DB_PASSWORD: ${{ env.DB_PASSWORD }}
           DB_NAME: ${{ env.DB_NAME }}
           DB_PORT: ${{ env.DB_PORT }}
+          REDIS_HOST: ${{ env.REDIS_HOST }}
+          REDIS_PORT: ${{ env.REDIS_PORT }}
+          REDIS_PASSWORD: ${{ env.REDIS_PASSWORD }}
+          REDIS_DB: ${{ env.REDIS_DB }}
+          REDIS_PREFIX: ${{ env.REDIS_PREFIX }}

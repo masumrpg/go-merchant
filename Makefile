@@ -23,6 +23,12 @@ migrate-docker-up:
 	@docker run -v ./src/database/migrations:/migrations --network go-fiber-boilerplate_go-network migrate/migrate -path=/migrations/ -database postgres://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)?sslmode=disable up
 migrate-docker-down:
 	@docker run -v ./src/database/migrations:/migrations --network go-fiber-boilerplate_go-network migrate/migrate -path=/migrations/ -database postgres://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)?sslmode=disable down -all
+redis-cli:
+	@docker exec -it redis redis-cli -a $(REDIS_PASSWORD)
+redis-monitor:
+	@docker exec -it redis redis-cli -a $(REDIS_PASSWORD) monitor
+redis-flush:
+	@docker exec -it redis redis-cli -a $(REDIS_PASSWORD) flushall
 docker:
 	@chmod -R 755 ./src/database/init
 	@docker-compose up --build
